@@ -93,18 +93,7 @@ export const Blog: React.FC = () => {
     <section className="pt-32 pb-20 px-6">
       <div className="max-w-6xl mx-auto">
         
-        {/* Header Title */}
-        <div className="mb-16 text-center md:text-left">
-          <Reveal>
-            <h1 className="text-6xl md:text-8xl font-bold tracking-tighter glow-text mb-4">
-              SARUN<span className="text-cyan-400">.LOG</span>
-            </h1>
-            <p className="text-slate-400 text-lg md:text-xl max-w-xl mono">
-              Regular updates on design, technology, and the intersection of both.
-            </p>
-          </Reveal>
-        </div>
-
+       
         {/* Filters and Search Bar */}
         <Reveal delay={0.1}>
           <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 mb-12 glass p-4 rounded-2xl">
@@ -149,7 +138,7 @@ export const Blog: React.FC = () => {
             </div>
           </Reveal>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             {/* Main Content: Hero & Grid */}
             <div className="lg:col-span-2 space-y-12">
@@ -241,52 +230,6 @@ export const Blog: React.FC = () => {
                 </div>
               )}
             </div>
-
-            {/* Sidebar */}
-            <div className="space-y-6">
-              
-              {/* About Author Card */}
-              <Reveal delay={0.3}>
-                <div className="glass p-6 rounded-3xl text-center md:text-left relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-violet-500/10 to-cyan-500/10 rounded-full blur-2xl -z-10"></div>
-                  <div className="w-16 h-16 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center mb-4 mx-auto md:mx-0 shadow-[0_0_15px_rgba(255,255,255,0.05)]">
-                    <span className="text-xl font-bold text-cyan-400 mono">S</span>
-                  </div>
-                  <h3 className="text-lg font-bold mb-1">Sarun</h3>
-                  <span className="text-xs text-violet-400 mono block mb-4">SYSTEMS_ENGINEER // INTERFACE_DESIGNER</span>
-                  <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                    Writing about building highly performant UI components, animations, and architecting modern frontend systems.
-                  </p>
-                  <div className="flex gap-4 justify-center md:justify-start text-xs text-slate-400 mono">
-                    <a href="#" className="hover:text-cyan-400 transition-colors">Twitter</a>
-                    <a href="#" className="hover:text-cyan-400 transition-colors">GitHub</a>
-                  </div>
-                </div>
-              </Reveal>
-
-              {/* Quick Tags / Categories Breakdown */}
-              <Reveal delay={0.4}>
-                <div className="glass p-6 rounded-3xl">
-                  <h4 className="text-xs text-slate-400 tracking-widest mono mb-4 uppercase">// CATEGORY_BREAKDOWN</h4>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-slate-400">Engineering</span>
-                      <span className="px-2 py-0.5 rounded bg-white/5 text-xs text-slate-300 mono">2 articles</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-slate-400">Design</span>
-                      <span className="px-2 py-0.5 rounded bg-white/5 text-xs text-slate-300 mono">3 articles</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-slate-400">Artificial Intelligence</span>
-                      <span className="px-2 py-0.5 rounded bg-white/5 text-xs text-slate-300 mono">1 article</span>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-
-            </div>
-
           </div>
         )}
 

@@ -9,9 +9,10 @@ export const PostDetail: React.FC = () => {
   const post = postsData.find(p => p.id === id);
 
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [claps, setClaps] = useState(0);
   const [copied, setCopied] = useState(false);
-
+function scrollToTop() {
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
   // Scroll progress tracking
   useEffect(() => {
     const handleScroll = () => {
@@ -25,24 +26,7 @@ export const PostDetail: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Clap initialization and scroll reset
-  useEffect(() => {
-    if (post) {
-      const storedClaps = localStorage.getItem(`claps_${post.id}`);
-      setClaps(storedClaps ? parseInt(storedClaps, 10) : 0);
-    }
-    window.scrollTo(0, 0);
-  }, [post]);
-
-  const handleClap = () => {
-    if (post) {
-      const newClaps = claps + 1;
-      setClaps(newClaps);
-      localStorage.setItem(`claps_${post.id}`, newClaps.toString());
-    }
-  };
-
-  const handleShare = () => {
+   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -237,64 +221,25 @@ interface ComponentSchema {
           </h1>
         </Reveal>
 
-        {/* Interactive Utility bar (Claps, Share) */}
-        <Reveal delay={0.22}>
-          <div className="flex items-center justify-between border-t border-b border-white/5 py-4 mb-12">
-            <div className="flex items-center gap-4">
-              {/* Clap button */}
-              <button 
-                onClick={handleClap}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/20 text-cyan-400 hover:scale-105 active:scale-95 transition-all text-xs font-semibold cursor-pointer"
-              >
-                <span>👏 Claps</span>
-                <span className="bg-cyan-950 px-2 py-0.5 rounded-full text-[10px] text-cyan-300 mono">{claps}</span>
-              </button>
-            </div>
-            
-            {/* Share button */}
-            <button 
-              onClick={handleShare}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all text-xs font-semibold cursor-pointer"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 10.742l4.028-2.014m0 0a3 3 0 10-2.243-4.077L7.357 6.096a3 3 0 10-.008 3.808l3.11 1.554a3 3 0 11-1.78 2.601z" />
-              </svg>
-              <span>{copied ? 'Link Copied!' : 'Copy Link'}</span>
-            </button>
-          </div>
-        </Reveal>
-
-        {/* Article Body */}
         <Reveal delay={0.25}>
           <article className="prose prose-invert max-w-none text-slate-300 text-lg leading-relaxed space-y-6">
             {renderPostBody()}
           </article>
         </Reveal>
 
-        {/* Article Footer / Author Box */}
-        <Reveal delay={0.3}>
-          <div className="border-t border-white/10 mt-16 pt-8 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center">
-                <span className="text-sm font-bold text-cyan-400 mono">S</span>
-              </div>
-              <div>
-                <span className="text-sm font-semibold block text-white">Sarun</span>
-                <span className="text-[10px] text-slate-500 mono">AUTHOR // LEAD DEVELOPER</span>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-
         {/* Related Articles Widget */}
         <div className="border-t border-white/10 mt-20 pt-16">
           <Reveal>
-            <h3 className="text-sm tracking-widest text-slate-500 mono uppercase mb-8">// RELATED_ARTICLES</h3>
-          </Reveal>
+            <h3 className="text-sm tracking-widest text-slate-500 mono uppercase mb-8">// RELATED_BLOGS</h3>
+                   </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {relatedPosts.map((rPost, idx) => (
               <Reveal key={rPost.id} delay={idx * 0.1}>
-                <Link to={`/post/${rPost.id}`} className="group block h-full">
+                <Link 
+                  to={`/post/${rPost.id}`} 
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="group block h-full"
+                >
                   <div className="glass rounded-2xl overflow-hidden h-full flex flex-col justify-between hover:border-violet-500/30 transition-all duration-300">
                     <div className="h-32 w-full overflow-hidden border-b border-white/5">
                       <img 
