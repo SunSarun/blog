@@ -1,0 +1,51 @@
+{
+  "id": "json-as-content-engine",
+  "slug": "json-as-content-engine",
+  "title": "JSON as a Pure Content Engine",
+  "subtitle": "Why static, portable JSON schemas remain the ultimate format for long-term digital archivism.",
+  "date": "2026-07-24",
+  "coverImage": "/images/workspace.jpg",
+  "author": {
+    "name": "Marcus Vance",
+    "handle": "@mvance",
+    "role": "Systems Engineer"
+  },
+  "category": "Engineering",
+  "tags": ["JSON", "Web Architecture", "Data Models", "Svelte"],
+  "readTime": "6 min read",
+  "featured": false,
+  "summary": "Database abstractions come and go, but clean JSON files outlast frameworks. A look at structuring resilient document schemas for blog platforms.",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "In an era dominated by headless CMS platforms, cloud databases, and complex GraphQL layers, the simplicity of a raw JSON document remains unmatched for portability, security, and instantaneous rendering."
+    },
+    {
+      "type": "image",
+      "url": "/images/workspace.jpg",
+      "caption": "Figure 2.1: A minimalist developer workspace optimized for focus and raw code parsing."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "The Anatomy of a Clean Post Schema"
+    },
+    {
+      "type": "paragraph",
+      "text": "A blog post JSON document should be self-contained, typed, and structured around semantically decoupled content blocks rather than fragile inline HTML markup."
+    },
+    {
+      "type": "code",
+      "language": "json",
+      "code": "{\n  \"id\": \"post-01\",\n  \"slug\": \"clean-code-principles\",\n  \"title\": \"Principles of Clean Architecture\",\n  \"coverImage\": \"/images/workspace.jpg\",\n  \"date\": \"2026-07-15\",\n  \"content\": [\n    {\n      \"type\": \"heading\",\n      \"level\": 2,\n      \"text\": \"Introduction\"\n    },\n    {\n      \"type\": \"paragraph\",\n      \"text\": \"Clean code is readable, testable, and maintainable.\"\n    }\n  ]\n}"
+    },
+    {
+      "type": "paragraph",
+      "text": "This structured block approach allows frontend clients in Svelte, React, Vue, or terminal CLI parsers to render the content natively without unsafe innerHTML vulnerability vectors."
+    },
+    {
+      "type": "blockquote",
+      "text": "Data formats should outlive the code written to parse them."
+    }
+  ]
+}

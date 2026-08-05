@@ -1,0 +1,36 @@
+{
+  "id": "typography-in-the-dark",
+  "slug": "typography-in-the-dark",
+  "title": "Typography in the Dark: Contrast and Legibility",
+  "subtitle": "Designing comfortable night-mode reader experiences through micro-adjustments in line height and weight.",
+  "date": "2026-06-28",
+  "author": {
+    "name": "Kaito Tanaka",
+    "handle": "@ktanaka",
+    "role": "Typography Researcher"
+  },
+  "category": "Typography",
+  "tags": ["Typography", "UX", "Accessibility"],
+  "readTime": "5 min read",
+  "featured": false,
+  "summary": "Pure white text on pitch black backgrounds can cause eye fatigue if font weights and tracking are not calibrated thoughtfully.",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Light emitting from high-contrast OLED displays behaves differently than ink on paper. When displaying pure white text #FFFFFF on absolute black #000000, thin serif fonts can appear to bleed or glow outward, a phenomenon known as halation."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "Tuning Contrast for Prolonged Reading"
+    },
+    {
+      "type": "paragraph",
+      "text": "To counteract halation and maintain effortless legibility, soft off-white text (#E5E5E5 or #F0F0F0) paired with slightly increased line spacing (1.7 to 1.85) produces optimal optical balance."
+    },
+    {
+      "type": "blockquote",
+      "text": "Good typography is invisible; great dark mode typography is effortless."
+    }
+  ]
+}
