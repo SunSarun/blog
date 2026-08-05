@@ -16,6 +16,7 @@
         <span class="logo-mark">BLOG</span>
         <span class="logo-text">.sarun</span>
       </button>
+      <span class="version-tag">DYNAMIC</span>
     </div>
 
     <nav class="nav-links">

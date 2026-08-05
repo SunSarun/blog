@@ -4,10 +4,17 @@
 
 <footer class="footer font-mono">
   <div class="footer-container">
-    <div class="right">
-      <span>©2026</span>
+    <div class="left">
+      <span class="copyright">BLOG.sarun</span>
+      <span class="desc">Decoupled dynamic blog engine • {postCount} articles loaded</span>
     </div>
-
+    <div class="right">
+      <button class="json-link" onclick={onOpenJsonModal}>
+        <span class="pulse"></span>
+        <span>posts.json</span>
+      </button>
+      <span>© 2026</span>
+    </div>
   </div>
 </footer>
 
@@ -50,6 +57,7 @@
   .right {
     display: flex;
     align-items: center;
+    gap: 1rem;
   }
 
   .json-link {
@@ -61,6 +69,8 @@
     border-radius: 4px;
     color: var(--text-muted);
     transition: all 0.15s ease;
+    background: transparent;
+    cursor: pointer;
   }
 
   .json-link:hover {
