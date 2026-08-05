@@ -4,17 +4,10 @@
 
 <footer class="footer font-mono">
   <div class="footer-container">
-    <div class="left font-sans">
-      <span class="copyright">MONO — Minimal Black & White Blog</span>
-      <span class="desc">Driven entirely by clean JSON document schemas.</span>
+    <div class="right">
+      <span>©2026</span>
     </div>
 
-    <div class="right">
-      <button class="json-link" onclick={onOpenJsonModal}>
-        <span class="pulse"></span>
-        posts.json ({postCount} entries)
-      </button>
-    </div>
   </div>
 </footer>
 

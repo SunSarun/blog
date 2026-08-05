@@ -13,10 +13,9 @@
   <div class="header-container">
     <div class="brand">
       <button class="logo-btn" onclick={() => onTabChange('blog')}>
-        <span class="logo-mark">M</span>
-        <span class="logo-text">MONO</span>
+        <span class="logo-mark">BLOG</span>
+        <span class="logo-text">.sarun</span>
       </button>
-      <span class="version-tag">JSON v1.0</span>
     </div>
 
     <nav class="nav-links">
@@ -116,7 +115,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 26px;
+    width: 50px;
     height: 26px;
     background-color: var(--text-main);
     color: var(--bg-main);
