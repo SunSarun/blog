@@ -1,15 +1,23 @@
 /**
  * Dynamic runtime loader for blog posts.
- * Fully decoupled from application build process - loads posts via HTTP fetch
- * from the linked external directory (e.g. /posts.json, /posts/index.json, or /posts/[slug]/post.json)
- * when the application runs in the browser.
+ * Fetches directly from GitHub raw content or local static endpoints.
  */
 
+const REPO_OWNER = 'SunSarun';
+const REPO_NAME = 'blog-post';
+const BRANCH = 'main'; // Change to 'master' if your default branch is master
+
+const GITHUB_RAW_BASE = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}`;
+
 export async function fetchPosts() {
+  // Endpoints to check (GitHub Raw first, then local relative paths)
   const primaryEndpoints = [
-    '/posts.json',
+    `${GITHUB_RAW_BASE}/posts/index.json`,
+    `${GITHUB_RAW_BASE}/posts/posts.json`,
+    `${GITHUB_RAW_BASE}/posts.json`,
     '/posts/index.json',
-    '/posts/posts.json'
+    '/posts/posts.json',
+    '/posts.json'
   ];
 
   for (const endpoint of primaryEndpoints) {
@@ -17,26 +25,32 @@ export async function fetchPosts() {
       const response = await fetch(endpoint, { cache: 'no-cache' });
       if (response.ok) {
         const data = await response.json();
-        
+
         if (Array.isArray(data)) {
-          // Case 1: Array of file path strings pointing to individual post.json files
+          // Case 1: Array of file path strings or URLs pointing to individual post.json files
           if (data.length > 0 && typeof data[0] === 'string') {
             const fetchedPosts = await Promise.all(
-              data.map(async (url) => {
+              data.map(async (urlPath) => {
                 try {
-                  const res = await fetch(url, { cache: 'no-cache' });
+                  // Resolve relative paths against GitHub raw base if needed
+                  const targetUrl = urlPath.startsWith('http')
+                    ? urlPath
+                    : `${GITHUB_RAW_BASE}/${urlPath.replace(/^\//, '')}`;
+
+                  const res = await fetch(targetUrl, { cache: 'no-cache' });
                   return res.ok ? await res.json() : null;
                 } catch {
                   return null;
                 }
               })
             );
+
             const validPosts = fetchedPosts.filter(Boolean);
             if (validPosts.length > 0) {
               return validPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
             }
           }
-          
+
           // Case 2: Array of post objects directly inside index file
           if (data.length > 0 && typeof data[0] === 'object') {
             return data.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -48,7 +62,7 @@ export async function fetchPosts() {
     }
   }
 
-  // Fallback: direct load attempt from known post directory structure
+  // Fallback: Direct load attempt from known post directory structure on GitHub & local
   const knownSlugs = [
     'monochrome-manifesto',
     'json-as-content-engine',
@@ -59,14 +73,23 @@ export async function fetchPosts() {
   try {
     const fallbackPosts = await Promise.all(
       knownSlugs.map(async (slug) => {
-        try {
-          const res = await fetch(`/posts/${slug}/post.json`, { cache: 'no-cache' });
-          return res.ok ? await res.json() : null;
-        } catch {
-          return null;
+        const urls = [
+          `${GITHUB_RAW_BASE}/posts/${slug}/post.json`,
+          `/posts/${slug}/post.json`
+        ];
+
+        for (const url of urls) {
+          try {
+            const res = await fetch(url, { cache: 'no-cache' });
+            if (res.ok) return await res.json();
+          } catch {
+            continue;
+          }
         }
+        return null;
       })
     );
+
     const validFallback = fallbackPosts.filter(Boolean);
     if (validFallback.length > 0) {
       return validFallback.sort((a, b) => new Date(b.date) - new Date(a.date));
