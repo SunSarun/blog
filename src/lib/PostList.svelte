@@ -117,7 +117,7 @@
   <!-- Posts Display -->
  {#if filteredPosts.length === 0}
   <div class="empty-state">
-    <p class="empty-title font-serif">No JSON blog entries match your criteria.</p>
+    <p class="empty-title font-serif">No blog entries match your criteria.</p>
     <p class="empty-sub">Try searching with a different keyword or resetting your tag selection.</p>
     <button class="reset-btn" onclick={clearFilters}>Clear All Filters</button>
   </div>

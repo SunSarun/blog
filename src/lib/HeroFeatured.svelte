@@ -14,7 +14,7 @@
     {/if}
     <div class="hero-body">
       <div class="badge-row">
-        <span class="featured-badge">FEATURED JSON ENTRY</span>
+        <span class="featured-badge">FEATURED BLOG</span>
         <span class="category-tag">{post.category}</span>
         <span class="date">{post.date}</span>
       </div>
