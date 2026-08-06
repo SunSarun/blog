@@ -153,9 +153,17 @@
       <ul class="toc-list">
         {#each headings as heading}
           <li>
-            <a href="#{heading.text.toLowerCase().replace(/[^\w]+/g, '-')}">
+            <button type="button" class="toc-link"
+               onclick={(e) => {
+                 const id = heading.text.trim().toLowerCase().replace(/[^\w]+/g, '-');
+                 const el = document.getElementById(id);
+                 el?.scrollIntoView({ behavior: 'smooth' });
+                 // Update hash for sharing without navigating
+                 history.replaceState(null, '', `#${id}`);
+               }}
+            >
               {heading.text}
-            </a>
+            </button>
           </li>
         {/each}
       </ul>
@@ -168,13 +176,16 @@
       {#if block.type === 'paragraph'}
         <p class="content-paragraph">{block.text}</p>
 
-      {:else if block.type === 'image'}
-        <figure class="content-figure">
-          <img src={block.url} alt={block.caption || post.title} class="content-image" />
-          {#if block.caption}
-            <figcaption class="content-figcaption font-mono">{block.caption}</figcaption>
-          {/if}
-        </figure>
+        {:else if block.type === 'image'}
+  <figure class="content-figure">
+    <picture>
+      <source srcset={block.url.replace(/\.(png|jpe?g)$/i, '.webp')} type="image/webp" />
+      <img src={block.url} alt={block.caption || post.title} class="content-image" loading="lazy" />
+    </picture>
+    {#if block.caption}
+      <figcaption class="content-figcaption font-mono">{block.caption}</figcaption>
+    {/if}
+  </figure>
 
       {:else if block.type === 'heading'}
         {#if block.level === 2}

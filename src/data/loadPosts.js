@@ -18,6 +18,11 @@ function toAbsoluteUrl(path, postFolderUrl) {
   if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
     return path;
   }
+  // If path is root-relative (starts with '/'), resolve it against the GitHub raw base
+  if (path.startsWith('/')) {
+    const clean = path.replace(/^\/+/, '');
+    return `${GITHUB_RAW_BASE}/${clean}`;
+  }
 
   // Clean leading slashes or relative dot notation
   const cleanPath = path.replace(/^\.\//, '').replace(/^\//, '');
@@ -67,18 +72,28 @@ function processPostImages(post, postFolderUrl) {
 
     if (imageKeys.includes(key) || typeof resolved[key] === 'string') {
       if (typeof resolved[key] === 'string') {
+        // Prefer WebP version if a .jpg image is referenced in a remote post
+        if (resolved[key].endsWith('.jpg')) {
+          resolved[key] = resolved[key].replace(/\.jpg$/i, '.webp');
+        }
+        // Direct replacement for known local placeholder image (now using WebP)
         if (imageKeys.includes(key) || imageExtensionRegex.test(resolved[key])) {
           resolved[key] = toAbsoluteUrl(resolved[key], postFolderUrl);
         }
       } else if (Array.isArray(resolved[key])) {
-        resolved[key] = resolved[key].map((item) =>
-          typeof item === 'string' && (imageKeys.includes(key) || imageExtensionRegex.test(item))
-            ? toAbsoluteUrl(item, postFolderUrl)
-            : item
-        );
-      } else if (typeof resolved[key] === 'object' && resolved[key] !== null) {
-        resolved[key] = processPostImages(resolved[key], postFolderUrl);
+        resolved[key] = resolved[key].map((item) => {
+          let img = item;
+          if (typeof img === 'string' && img.endsWith('.jpg')) {
+            img = img.replace(/\.jpg$/i, '.webp');
+          }
+          return typeof img === 'string' && (imageKeys.includes(key) || imageExtensionRegex.test(img))
+            ? toAbsoluteUrl(img, postFolderUrl)
+            : img;
+        });
       }
+    }
+    if (typeof resolved[key] === 'object' && resolved[key] !== null) {
+      resolved[key] = processPostImages(resolved[key], postFolderUrl);
     }
   }
 
