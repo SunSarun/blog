@@ -5,14 +5,9 @@
 <footer class="footer font-mono">
   <div class="footer-container">
     <div class="left">
-      <span class="copyright">BLOG.sarun</span>
-      <span class="desc">Decoupled dynamic blog engine • {postCount} articles loaded</span>
+      <span class="copyright">BLOG.sarun.dev</span>
     </div>
     <div class="right">
-      <button class="json-link" onclick={onOpenJsonModal}>
-        <span class="pulse"></span>
-        <span>posts.json</span>
-      </button>
       <span>© 2026</span>
     </div>
   </div>

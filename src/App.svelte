@@ -35,7 +35,7 @@
     }
     selectedPost = null;
   }
-
+JsonViewerModal.svelte
   async function loadBlogData() {
     isLoading = true;
     loadError = null;
@@ -44,8 +44,8 @@
       posts = loadedPosts;
       syncRouteFromHash();
     } catch (err) {
-      console.error('Failed to load blog posts from link directory:', err);
-      loadError = err.message || 'Failed to load blog posts from link directory.';
+      console.error('Failed to load blog posts from Github:', err);
+      loadError = err.message || 'Failed to load blog posts from Github.';
     } finally {
       isLoading = false;
     }
@@ -111,7 +111,7 @@
     {#if isLoading}
       <div class="loading-container font-mono">
         <div class="spinner"></div>
-        <p class="loading-text">Loading blog posts from directory link...</p>
+        <p class="loading-text">Loading blog posts from Github...</p>
       </div>
     {:else if loadError}
       <div class="error-container font-mono">

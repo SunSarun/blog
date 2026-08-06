@@ -115,22 +115,32 @@
   {/if}
 
   <!-- Posts Display -->
-  {#if filteredPosts.length === 0}
-    <div class="empty-state">
-      <p class="empty-title font-serif">No JSON blog entries match your criteria.</p>
-      <p class="empty-sub">Try searching with a different keyword or resetting your tag selection.</p>
-      <button class="reset-btn" onclick={clearFilters}>Clear All Filters</button>
-    </div>
-  {:else if viewMode === 'list'}
-    <div class="posts-editorial-list">
-      {#each filteredPosts as post (post.id)}
-        <article class="post-card animate-fade-in {post.coverImage ? 'has-cover' : ''}">
-          {#if post.coverImage}
-            <button class="thumbnail-btn" onclick={() => onSelectPost(post)}>
-              <img src={post.coverImage} alt={post.title} class="card-thumbnail" />
-            </button>
-          {/if}
+ {#if filteredPosts.length === 0}
+  <div class="empty-state">
+    <p class="empty-title font-serif">No JSON blog entries match your criteria.</p>
+    <p class="empty-sub">Try searching with a different keyword or resetting your tag selection.</p>
+    <button class="reset-btn" onclick={clearFilters}>Clear All Filters</button>
+  </div>
+{:else if viewMode === 'list'}
+  <div class="posts-editorial-list">
+    {#each filteredPosts as post (post.id)}
+      <article class="post-card animate-fade-in {post.coverImage ? 'has-cover' : ''}">
+        {#if post.coverImage}
+          <button class="thumbnail-btn" onclick={() => onSelectPost(post)}>
+            <picture>
+              <!-- 1. Use explicit webpImage field if defined -->
+              {#if post.webpImage}
+                <source srcset={post.webpImage} type="image/webp" />
+              <!-- 2. Automatically derive .webp version if coverImage is .jpg or .png -->
+              {:else if typeof post.coverImage === 'string' && post.coverImage.match(/\.(jpe?g|png)$/i)}
+                <source srcset={post.coverImage.replace(/\.(jpe?g|png)$/i, '.webp')} type="image/webp" />
+              {/if}
 
+              <!-- Main/Fallback img element (also handles cases where coverImage is already a .webp) -->
+              <img src={post.coverImage} alt={post.title} class="card-thumbnail" loading="lazy" />
+            </picture>
+          </button>
+        {/if} 
           <div class="card-content-box">
             <div class="post-header-meta">
               <span class="post-date font-mono">{post.date}</span>

@@ -6,10 +6,12 @@
   <article class="featured-hero animate-fade-in">
     {#if post.coverImage}
       <div class="hero-image-wrapper">
-        <img src={post.coverImage} alt={post.title} class="hero-cover-img" />
+        <picture>
+          <source srcset={post.coverImageWebp || post.coverImage.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
+          <img src={post.coverImage} alt={post.title} class="hero-cover-img" loading="eager" />
+        </picture>
       </div>
     {/if}
-
     <div class="hero-body">
       <div class="badge-row">
         <span class="featured-badge">FEATURED JSON ENTRY</span>

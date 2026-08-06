@@ -86,19 +86,6 @@
         </button>
       </div>
 
-      <!-- Article JSON Toggle -->
-      <button 
-        class="action-btn font-mono" 
-        onclick={() => showSingleJson = !showSingleJson}
-        title="View JSON Payload for this Post"
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="16 18 22 12 16 6"></polyline>
-          <polyline points="8 6 2 12 8 18"></polyline>
-        </svg>
-        {showSingleJson ? 'Hide JSON' : 'View JSON'}
-      </button>
-
       <!-- Copy Link -->
       <button class="action-btn font-mono" onclick={copyArticleLink} title="Share Link">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -152,11 +139,13 @@
 
   <!-- Cover Photo if defined in JSON -->
   {#if post.coverImage}
-    <div class="cover-image-container">
+  <div class="cover-image-container">
+    <picture>
+      <source srcset={post.coverImageWebp || post.coverImage.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
       <img src={post.coverImage} alt={post.title} class="cover-image" />
-    </div>
-  {/if}
-
+    </picture>
+  </div>
+{/if}
   <!-- Table of Contents (if multiple headings exist) -->
   {#if headings.length > 1}
     <nav class="toc-box font-mono">

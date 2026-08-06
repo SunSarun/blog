@@ -1,21 +1,10 @@
 <script>
   let { isOpen = false, posts = [], onClose, onUpdatePosts } = $props();
 
-  let mode = $state('editor'); // 'editor' | 'builder'
+  // Builder mode removed – only raw JSON editor is used.
   let rawJsonText = $state('');
   let jsonError = $state(null);
   let copyNotice = $state(false);
-
-  // Builder Form state
-  let newTitle = $state('');
-  let newSubtitle = $state('');
-  let newAuthorName = $state('');
-  let newAuthorRole = $state('');
-  let newCategory = $state('Design');
-  let newTagsStr = $state('Minimalism, JSON');
-  let newSummary = $state('');
-  let newParagraph1 = $state('');
-  let newParagraph2 = $state('');
 
   // Sync rawJsonText when modal opens or posts change
   $effect(() => {
@@ -44,52 +33,6 @@
     } catch (err) {
       jsonError = 'Invalid JSON syntax: ' + err.message;
     }
-  }
-
-  function handleAddPostFromBuilder() {
-    if (!newTitle.trim()) {
-      jsonError = 'Article Title is required.';
-      return;
-    }
-
-    const newSlug = newTitle.toLowerCase().replace(/[^\w]+/g, '-').replace(/^-+|-+$/g, '');
-    const newPost = {
-      id: newSlug || `post-${Date.now()}`,
-      slug: newSlug || `post-${Date.now()}`,
-      title: newTitle.trim(),
-      subtitle: newSubtitle.trim() || undefined,
-      date: new Date().toISOString().split('T')[0],
-      author: {
-        name: newAuthorName.trim() || 'Anonymous Author',
-        handle: '@' + (newAuthorName.toLowerCase().replace(/\s+/g, '') || 'author'),
-        role: newAuthorRole.trim() || 'Contributor'
-      },
-      category: newCategory.trim() || 'General',
-      tags: newTagsStr.split(',').map(t => t.trim()).filter(Boolean),
-      readTime: '3 min read',
-      featured: false,
-      summary: newSummary.trim() || newParagraph1.slice(0, 120) + '...',
-      content: [
-        {
-          type: 'paragraph',
-          text: newParagraph1.trim() || 'First paragraph content.'
-        },
-        ...(newParagraph2.trim() ? [{
-          type: 'paragraph',
-          text: newParagraph2.trim()
-        }] : [])
-      ]
-    };
-
-    const updated = [newPost, ...posts];
-    onUpdatePosts(updated);
-    // reset form
-    newTitle = '';
-    newSubtitle = '';
-    newSummary = '';
-    newParagraph1 = '';
-    newParagraph2 = '';
-    onClose();
   }
 
   function handleFileUpload(e) {
@@ -156,22 +99,6 @@
         <button class="close-btn" onclick={onClose} aria-label="Close modal">✕</button>
       </div>
 
-      <!-- Mode Selector -->
-      <div class="mode-tabs font-mono">
-        <button 
-          class="tab-btn {mode === 'editor' ? 'active' : ''}" 
-          onclick={() => mode = 'editor'}
-        >
-          Raw JSON Code Editor
-        </button>
-        <button 
-          class="tab-btn {mode === 'builder' ? 'active' : ''}" 
-          onclick={() => mode = 'builder'}
-        >
-          + Add Entry Form
-        </button>
-      </div>
-
       <!-- Error Alert -->
       {#if jsonError}
         <div class="error-alert font-mono">
@@ -179,9 +106,8 @@
         </div>
       {/if}
 
-      <!-- Mode 1: Code Editor -->
-      {#if mode === 'editor'}
-        <div class="editor-container">
+      <!-- Code Editor -->
+      <div class="editor-container">
           <textarea 
             bind:value={rawJsonText}
             class="raw-textarea font-mono"
@@ -207,66 +133,6 @@
             <button class="save-btn" onclick={handleSaveJson}>Apply & Update Blog</button>
           </div>
         </div>
-
-      {:else}
-        <!-- Mode 2: Form Builder -->
-        <div class="builder-container font-sans">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="new-title" class="form-label font-mono">Article Title *</label>
-              <input id="new-title" type="text" bind:value={newTitle} placeholder="e.g. Modernist Grid Layouts" class="form-input" />
-            </div>
-            <div class="form-group">
-              <label for="new-category" class="form-label font-mono">Category</label>
-              <input id="new-category" type="text" bind:value={newCategory} placeholder="Design, Engineering, Architecture" class="form-input" />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="new-subtitle" class="form-label font-mono">Subtitle / Deck</label>
-            <input id="new-subtitle" type="text" bind:value={newSubtitle} placeholder="A concise secondary heading..." class="form-input" />
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="new-author" class="form-label font-mono">Author Name</label>
-              <input id="new-author" type="text" bind:value={newAuthorName} placeholder="Elena Rostova" class="form-input" />
-            </div>
-            <div class="form-group">
-              <label for="new-role" class="form-label font-mono">Author Role</label>
-              <input id="new-role" type="text" bind:value={newAuthorRole} placeholder="Design Director" class="form-input" />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="new-tags" class="form-label font-mono">Tags (comma separated)</label>
-            <input id="new-tags" type="text" bind:value={newTagsStr} placeholder="Minimalism, Typography, JSON" class="form-input" />
-          </div>
-
-          <div class="form-group">
-            <label for="new-summary" class="form-label font-mono">Summary / Teaser</label>
-            <textarea id="new-summary" bind:value={newSummary} placeholder="Short overview for article index..." class="form-textarea" rows="2"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="new-p1" class="form-label font-mono">Main Paragraph 1</label>
-            <textarea id="new-p1" bind:value={newParagraph1} placeholder="Write the opening section of your article..." class="form-textarea" rows="3"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="new-p2" class="form-label font-mono">Main Paragraph 2 (Optional)</label>
-            <textarea id="new-p2" bind:value={newParagraph2} placeholder="Secondary paragraph..." class="form-textarea" rows="3"></textarea>
-          </div>
-        </div>
-
-        <div class="modal-footer font-mono">
-          <div></div>
-          <div class="right-actions">
-            <button class="cancel-btn" onclick={onClose}>Cancel</button>
-            <button class="save-btn" onclick={handleAddPostFromBuilder}>Append to posts.json</button>
-          </div>
-        </div>
-      {/if}
 
     </div>
   </div>

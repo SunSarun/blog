@@ -16,7 +16,6 @@
         <span class="logo-mark">BLOG</span>
         <span class="logo-text">.sarun</span>
       </button>
-      <span class="version-tag">DYNAMIC</span>
     </div>
 
     <nav class="nav-links">
@@ -34,19 +33,6 @@
         </svg>
         Articles ({postCount})
       </button>
-
-      <button 
-        class="nav-btn json-btn" 
-        onclick={onOpenJsonModal}
-        title="View or Edit JSON Blog Source File"
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="16 18 22 12 16 6"></polyline>
-          <polyline points="8 6 2 12 8 18"></polyline>
-        </svg>
-        <span>posts.json</span>
-      </button>
-
       <button 
         class="theme-btn" 
         onclick={onToggleTheme} 
@@ -133,15 +119,6 @@
     letter-spacing: 0.15em;
   }
 
-  .version-tag {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    border: 1px solid var(--border-color);
-    padding: 0.15rem 0.4rem;
-    border-radius: 2px;
-    letter-spacing: 0.05em;
-  }
 
   .nav-links {
     display: flex;
@@ -202,9 +179,6 @@
   }
 
   @media (max-width: 640px) {
-    .version-tag {
-      display: none;
-    }
     .header-container {
       padding: 0.85rem 1rem;
     }
