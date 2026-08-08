@@ -44,8 +44,8 @@ JsonViewerModal.svelte
       posts = loadedPosts;
       syncRouteFromHash();
     } catch (err) {
-      console.error('Failed to load blog posts from Github:', err);
-      loadError = err.message || 'Failed to load blog posts from Github.';
+      console.error('Failed to load blog posts from Github repo:', err);
+      loadError = err.message || 'Failed to load blog posts from Github repo.';
     } finally {
       isLoading = false;
     }
@@ -111,7 +111,7 @@ JsonViewerModal.svelte
     {#if isLoading}
       <div class="loading-container font-mono">
         <div class="spinner"></div>
-        <p class="loading-text">Loading blog posts from Github...</p>
+        <p class="loading-text">Loading blog posts from Github repo...</p>
       </div>
     {:else if loadError}
       <div class="error-container font-mono">
