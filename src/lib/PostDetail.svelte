@@ -461,7 +461,7 @@
     max-height: 420px;
     object-fit: cover;
     display: block;
-    filter: grayscale(100%) contrast(110%);
+    filter: contrast(110%);
     transition: filter 0.3s ease;
   }
 
@@ -481,7 +481,7 @@
     width: 100%;
     height: auto;
     display: block;
-    filter: grayscale(100%) contrast(110%);
+    filter: contrast(110%);
     transition: filter 0.3s ease;
   }
 

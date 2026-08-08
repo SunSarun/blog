@@ -383,12 +383,11 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    filter: grayscale(100%) contrast(110%);
+    filter: contrast(100%);
     transition: filter 0.25s ease, transform 0.25s ease;
   }
 
   .thumbnail-btn:hover .card-thumbnail {
-    filter: grayscale(0%) contrast(100%);
     transform: scale(1.04);
   }
 
