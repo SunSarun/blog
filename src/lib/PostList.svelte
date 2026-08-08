@@ -163,9 +163,17 @@
             <p class="post-summary">{post.summary}</p>
 
             <div class="post-card-footer">
-              <div class="author">
-                <span class="author-name">{post.author.name}</span>
-              </div>
+                <div class="author">
+                  {#if post.author.profile}
+                    <picture class="author-avatar-pic">
+                      {#if typeof post.author.profile === 'string' && post.author.profile.match(/\.(jpe?g|png)$/i)}
+                        <source srcset={post.author.profile.replace(/\.(jpe?g|png)$/i, '.webp')} type="image/webp" />
+                      {/if}
+                      <img src={post.author.profile} alt={post.author.name} class="author-avatar-image" />
+                    </picture>
+                  {/if}
+                  <span class="author-name">{post.author.name}</span>
+                </div>
 
               <div class="tags">
                 {#each post.tags || [] as tag}
@@ -452,6 +460,15 @@
     font-size: 0.8rem;
     font-weight: 500;
     color: var(--text-main);
+  }
+
+  .author-avatar-image {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 0.4rem;
+    vertical-align: middle;
   }
 
   .tags {

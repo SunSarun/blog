@@ -126,15 +126,24 @@
       </p>
     {/if}
 
-    <div class="author-meta-box">
-      <div class="author-avatar-initials font-mono">
-        {post.author.name.split(' ').map(n => n[0]).join('')}
+      <div class="author-meta-box">
+        {#if post.author.profile}
+          <picture class="author-avatar-pic">
+  {#if typeof post.author.profile === 'string' && post.author.profile.match(/\.(jpe?g|png)$/i)}
+    <source srcset={post.author.profile.replace(/\.(jpe?g|png)$/i, '.webp')} type="image/webp" />
+  {/if}
+  <img src={post.author.profile} alt={post.author.name} class="author-avatar-image" />
+</picture>
+        {:else}
+          <div class="author-avatar-initials font-mono">
+            {post.author.name.split(' ').map(n => n[0]).join('')}
+          </div>
+        {/if}
+        <div class="author-info">
+          <span class="author-name">{post.author.name}</span>
+          <span class="author-role font-mono">{post.author.role} • {post.author.handle}</span>
+        </div>
       </div>
-      <div class="author-info">
-        <span class="author-name">{post.author.name}</span>
-        <span class="author-role font-mono">{post.author.role} • {post.author.handle}</span>
-      </div>
-    </div>
   </header>
 
   <!-- Cover Photo if defined in JSON -->
@@ -431,6 +440,15 @@
     font-weight: 600;
     font-size: 0.85rem;
     color: var(--text-main);
+  }
+
+  .author-avatar-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 0.4rem;
+    vertical-align: middle;
   }
 
   .author-info {

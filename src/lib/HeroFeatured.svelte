@@ -85,7 +85,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    filter: grayscale(100%) contrast(110%);
+    filter: contrast(110%);
     transition: filter 0.3s ease, transform 0.3s ease;
   }
 
